@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="UI_styles/main.css">
+    <link rel="stylesheet" href="UI_styles/button.css">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <script 
+    type="text/javascript" 
+    src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js">
+    </script>
+    
+    <script>
+        window.onload = function (){
+            setTimeout(function() {
+            getMessageFromBackend();
+            }, 1000);
+        }
+
+        async function getMessageFromBackend() {
+            const message = await window.pywebview.api.return_mod_name();
+            for (var i = 0; i < message.length; i++) {
+
+                (function() {
+                    const buttonname = message[i]
+                    var button = document.createElement("button");
+                    var buttontext = buttonname;
+                    button.innerHTML = buttontext;
+                    button.addEventListener("click", function() {
+                        const _ = window.pywebview.api.click_button(buttonname);
+                    });
+                    document.body.appendChild(button);
+                })();
+
+            }
+        }
+    </script>
+
+
+
+</body>
+
+
+</html>
