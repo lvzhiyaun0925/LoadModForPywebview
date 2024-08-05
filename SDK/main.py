@@ -7,4 +7,4 @@ del command
 
 
 def click_button():  # 这是main函数
-    print(2)
+    print(1)
