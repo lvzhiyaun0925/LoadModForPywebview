@@ -48,6 +48,7 @@ class Mods(object):
 
         with zipfile.ZipFile('mods/'+mod_name, 'r') as zip_ref:
             zip_ref.extractall(path)
+
         with open(path+"/"+"setup-temp", "r") as f:
             _text = f.read()
 
@@ -92,11 +93,12 @@ def on_exit() -> None:
     """
     shutil.rmtree("mods/temp", ignore_errors=True)
 
+
 if __name__ == '__main__':
     try:
         init()
         main()
-    except:
-        print("程序异常退出")
+    except Exception as e:
+        print("程序异常退出"+str(e))
     finally:
         on_exit()
