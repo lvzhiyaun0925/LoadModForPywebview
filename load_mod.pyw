@@ -10,21 +10,28 @@ buttons = dict()
 
 
 class Api(object):
+    """
+    一个 Pywebview API 接口
+    """
+    def __init__(self) -> None:
+        pass
 
-    def return_mod_name(self):
+    def return_mod_name(self) -> list:
         return mods_name_list
 
-    def click_button(self, button_name):
-        buttons[button_name]()
+    def click_button(self, button_name) -> any:
+        return buttons[button_name]()
 
 
 class Mods(object):
+    """
+    主代码类模块
+    """
     def __init__(self):
         self.scan_mod_path = "mods/"
         self.scan_mods()
 
     def scan_mods(self):
-
         for mod_name in os.listdir(self.scan_mod_path):
             if os.path.isfile("mods/"+mod_name):
                 print(mod_name)
@@ -53,31 +60,34 @@ class Mods(object):
         print("导入{}，button name：{}".format(mod_name, mod_button_name))
 
 
-def main():
-    path = 'ui/main.html'
+def init() -> None:
+    """
+    :return: None
+    初始化程序
+    """
+    shutil.rmtree("mods/temp", ignore_errors=True)
+    for dir in ["logs", "mods/temp"]:
+        os.makedirs(dir, exist_ok=True)
+    Mods()
+
+
+def main() -> None:
+    """
+    :return: None
+    主程序入口
+    """
+    path = os.path.abspath('ui/main.html')
     api = Api()
-
     webview.create_window("window", path, js_api=api)
-
     webview.start(debug=False)
 
 
-def init():
-    if not os.path.isdir("logs"):
-        os.mkdir("logs")
-
-    if not os.path.isdir("mods"):
-        os.mkdir("mods")
-
-    if os.path.isdir("mods/temp"):
-        shutil.rmtree("mods/temp")
-        os.mkdir("mods/temp")
-
-    else:
-        os.mkdir("mods/temp")
-
-    Mods()
-
+def on_exit() -> None:
+    """
+    :return: None
+    当程序退出时清理缓存文件
+    """
+    shutil.rmtree("mods/temp", ignore_errors=True)
 
 if __name__ == '__main__':
     init()
