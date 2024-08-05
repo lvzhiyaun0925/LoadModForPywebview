@@ -39,17 +39,18 @@ class Mods(object):
 
         with zipfile.ZipFile('mods/'+mod_name, 'r') as zip_ref:
             zip_ref.extractall(path)
+        with open(path+"/"+"setup-temp", "r") as f:
+            _text = f.read()
 
-        main = __import__("main")
+        print(_text)
+        main = __import__(_text)
 
         mod_button_name = main.__body_button_name__
         buttons[mod_button_name] = main.click_button
         mods_name_list.append(mod_button_name)
 
-        print(sys.path)
         del sys.path[sys.path.index(path)]
         print("导入{}，button name：{}".format(mod_name, mod_button_name))
-        print(sys.path)
 
 
 def main():
