@@ -88,11 +88,15 @@ def main() -> None:
 def on_exit() -> None:
     """
     :return: None
-    当程序退出时清理缓存文件
+    当程序退出时确保程序彻底结束
     """
     shutil.rmtree("mods/temp", ignore_errors=True)
 
 if __name__ == '__main__':
-    init()
-    main()
-    on_exit()
+    try:
+        init()
+        main()
+    except:
+        print("程序异常退出")
+    finally:
+        on_exit()
