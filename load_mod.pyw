@@ -3,6 +3,8 @@ import os
 import sys
 import zipfile
 import shutil
+import logging
+import time
 
 
 mods_name_list = list()
@@ -65,6 +67,7 @@ def init() -> None:
     :return: None
     初始化程序
     """
+    logging.basicConfig(filename=f"logs/log_{int(time.time())}.log", level=logging.INFO, format="[%(asctime)s | %(levelname)s] %(message)s", encoding="utf-8")
     shutil.rmtree("mods/temp", ignore_errors=True)
     for dir in ["logs", "mods/temp"]:
         os.makedirs(dir, exist_ok=True)
@@ -92,3 +95,4 @@ def on_exit() -> None:
 if __name__ == '__main__':
     init()
     main()
+    on_exit()
